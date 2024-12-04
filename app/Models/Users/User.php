@@ -42,7 +42,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -54,28 +55,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts(){
+    public function posts()
+    {
         return $this->hasMany('App\Models\Posts\Post');
     }
 
-    public function calendars(){
+    public function calendars()
+    {
         return $this->belongsToMany('App\Models\Calendars\Calendar', 'calendar_users', 'user_id', 'calendar_id')->withPivot('user_id', 'id');
     }
 
-    public function reserveSettings(){
+    public function reserveSettings()
+    {
         return $this->belongsToMany('App\Models\Calendars\ReserveSettings', 'reserve_setting_users', 'user_id', 'reserve_setting_id')->withPivot('id');
     }
 
-    public function subjects(){
-        return ;// リレーションの定義
+    // belongsToMany('関係するモデル（相手のモデル）', '中間テーブルのテーブル名', '中間テーブル内で対応しているID名（自分のモデルのID）', '関係するモデルで対応しているID名（リレーションしたい相手のID）');
+    public function subjects()
+    {
+        return $this->belongsToMany('App\Models\Users\Subjects', 'subject_users', 'user_id', 'subject_id');
     }
 
     // いいねしているかどうか
-    public function is_Like($post_id){
+    public function is_Like($post_id)
+    {
         return Like::where('like_user_id', Auth::id())->where('like_post_id', $post_id)->first(['likes.id']);
     }
 
-    public function likePostId(){
+    public function likePostId()
+    {
         return Like::where('like_user_id', Auth::id());
     }
 }
