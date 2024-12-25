@@ -165,10 +165,10 @@
                 <div class="select_teacher d-none">
                     <label class="d-block m-0" style="font-size:13px">選択科目</label>
                     @foreach ($subjects as $subject)
-                        <div class="">
-                            <input type="checkbox" name="subject[]" value="{{ $subject->id }}">
-                            <label>{{ $subject->subject }}</label>
-                        </div>
+                    <div class="">
+                        <input type="checkbox" name="subject[]" value="{{ $subject->id }}">
+                        <label>{{ $subject->subject }}</label>
+                    </div>
                     @endforeach
                 </div>
                 <div class="mt-3">
@@ -180,7 +180,7 @@
                 <div class="mt-3">
                     <label class="d-block m-0" style="font-size:13px">確認用パスワード</label>
                     <div class="border-bottom border-primary">
-                        <input type="password" class="border-0 w-100 password_confirmation" name="password">
+                        <input type="password" class="border-0 w-100 password_confirmation" name="password_confirmation">
                     </div>
                 </div>
                 <div class="mt-5 text-right">
@@ -194,6 +194,9 @@
             {{ csrf_field() }}
         </div>
     </form>
+    @foreach ($errors->all() as $error)
+    <li>{{$error}}</li>
+    @endforeach
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

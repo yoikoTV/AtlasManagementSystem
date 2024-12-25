@@ -4,6 +4,7 @@
   <div class="w-50 mt-5">
     <div class="m-3 detail_container">
       <div class="p-3">
+        @if($user_id == $post->user_id)
         <div class="detail_inner_head">
           <div>
           </div>
@@ -12,7 +13,7 @@
             <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
           </div>
         </div>
-
+        @endif
         <div class="contributor d-flex">
           <p>
             <span>{{ $post->user->over_name }}</span>

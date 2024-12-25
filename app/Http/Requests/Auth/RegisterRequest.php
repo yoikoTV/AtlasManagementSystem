@@ -14,7 +14,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -32,35 +32,70 @@ class RegisterRequest extends FormRequest
             'under_name_kana' => 'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
             'mail_address' => 'required|email|unique:users,mail_address',
             'sex' => 'required|in:1,2,3',
-            'old_year' => 'require|integer|max:2000',
-            'old_month' => 'required|integer|max:12',
-            'old_day' => 'required|integer|max:31',
-            'role' => 'required|in:1,2,3',
+            'old_year' => 'required|min:2000',
+            'old_month' => 'required',
+            'old_day' => 'required',
+            'role' => 'required|in:1,2,3,4',
             'password' => 'required|min:8|max:30|confirmed'
         ];
     }
 
 
-    public function withValidator($validator)
+    protected function withValidator($validator): void
     {
         $validator->after(function ($validator) {
-            $year = $this->input('old_year');
-            $month = str_pad($this->input('old_month'), 2, '0', STR_PAD_LEFT);
-            $day = str_pad($this->input('old_day'), 2, '0', STR_PAD_LEFT);
+            if (!checkdate($this->input('old_month'), $this->input('old_day'), $this->input('old_year'))) {
+                $validator->errors()->add('birthday_day', '正しい日付を入力してください');
+            }
 
-            // 結合して日付文字列を作成
-            $dateString = "{$year}-{$month}-{$day}";
+            $birthdate = Carbon::createFromDate($this->input('old_year'), $this->input('old_month'), $this->input('old_day'));
 
-            // 入力された日付が2000年1月1日以降で、今日以前であることを確認
-            $minDate = '2000-01-01'; // 2000年1月1日
-            $maxDate = now()->toDateString(); // 今日の日付（YYYY-MM-DD形式）
-
-            // 日付が有効かどうかをチェック
-            try {
-                Carbon::parse($dateString); // 無効な日付の場合、例外が発生する
-            } catch (\Exception $e) {
-                $validator->errors()->add('date', '無効な日付です。');
+            if ($birthdate->isFuture()) {
+                $validator->errors()->add('birthday_day', '誕生日は未来の日付にはできません');
             }
         });
+    }
+
+    public function messages(): array
+    {
+        return [
+            'over_name.required' => '姓は必須です。',
+            'over_name.string' => '姓は文字のみ有効です。',
+            'over_name.max' => '姓は10文字以内で入力してください。',
+
+            'under_name.required' => '名は必須です。',
+            'under_name.string' => '名は文字のみ有効です。',
+            'under_name.max' => '名は10文字以内で入力してください。',
+
+            'over_name_kana.required' => 'セイは必須です。',
+            'over_name_kana.string' => 'セイは文字のみ有効です。',
+            'over_name_kana.max' => 'セイは30文字以内で入力してください。',
+            'over_name_kana.regex' => 'セイはカタカナで入力してください。',
+
+            'under_name_kana.required' => 'メイは必須です。',
+            'under_name_kana.string' => 'メイは文字のみ有効です。',
+            'under_name_kana.max' => 'メイは30文字以内で入力してください。',
+            'under_name_kana.regex' => 'メイはカタカナで入力してください。',
+
+            'mail_address.required' => 'メールアドレスは必須です。',
+            'mail_address.email' => '正しいメールアドレスを入力してください。',
+            'mail_address.unique' => 'このメールアドレスは既に使われています。',
+
+            'sex.required' => '性別は必須です。',
+            'sex.in' => '性別はいずれかを選択してください。',
+
+            'old_year.required' => '年は必須です。',
+            'old_year.min' => '2000年以降で入力してください。',
+            'old_month.required' => '月は必須です。',
+            'old_day.required' => '日は必須です。',
+
+            'role.required' => '役職は必須項目です。',
+            'role.in' => '役職はいずれかを選択してください。',
+
+            'password.required' => 'パスワードは必須項目です。',
+            'password.min' => 'パスワードは８文字以上で入力してください。',
+            'password.max' => 'パスワードは30文字以内で入力してください。',
+            'password.confirmed' => 'パスワードが正しくありません。'
+        ];
     }
 }
