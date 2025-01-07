@@ -17,7 +17,6 @@ class PostsController extends Controller
 {
     public function show(Request $request)
     {
-        $user_id = Auth::id();
         $posts = Post::with('user', 'postComments')->get();
         $categories = MainCategory::get();
         $like = new Like;
@@ -42,8 +41,9 @@ class PostsController extends Controller
 
     public function postDetail($post_id)
     {
+        $user_id = Auth::id();
         $post = Post::with('user', 'postComments')->findOrFail($post_id);
-        return view('authenticated.bulletinboard.post_detail', compact('post'));
+        return view('authenticated.bulletinboard.post_detail', compact('post', 'user_id'));
     }
 
     public function postInput()
@@ -62,7 +62,7 @@ class PostsController extends Controller
         return redirect()->route('post.show');
     }
 
-    public function postEdit(Request $request)
+    public function postEdit(PostFormRequest $request)
     {
         Post::where('id', $request->post_id)->update([
             'post_title' => $request->post_title,
