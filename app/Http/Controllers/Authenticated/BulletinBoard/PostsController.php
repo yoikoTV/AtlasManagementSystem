@@ -11,6 +11,8 @@ use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
 use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
+use App\Http\Requests\BulletinBoard\SubCategoryFormRequest;
+use App\Http\Requests\BulletinBoard\MainCategoryFormRequest;
 use Auth;
 
 class PostsController extends Controller
@@ -49,7 +51,8 @@ class PostsController extends Controller
     public function postInput()
     {
         $main_categories = MainCategory::get();
-        return view('authenticated.bulletinboard.post_create', compact('main_categories'));
+        $sub_categories = SubCategory::get();
+        return view('authenticated.bulletinboard.post_create', compact('main_categories', 'sub_categories'));
     }
 
     public function postCreate(PostFormRequest $request)
@@ -59,6 +62,12 @@ class PostsController extends Controller
             'post_title' => $request->post_title,
             'post' => $request->post_body
         ]);
+        //$requestの後はbladeのnameを記述　$sub_category_idはbladeのform（post_category_id）の中にある　attachメソッドで使うために記述
+        $sub_category_id = $request->post_category_id;
+        //新規投稿した投稿のidを探す
+        $post = Post::findOrFail($post->id);
+        //新規投稿した投稿にsubCategoriesメソッドを用いて、attach（テーブルに情報を追加）でサブカテゴリーのidを追加する
+        $post->subCategories()->attach($sub_category_id);
         return redirect()->route('post.show');
     }
 
@@ -76,11 +85,24 @@ class PostsController extends Controller
         Post::findOrFail($id)->delete();
         return redirect()->route('post.show');
     }
-    public function mainCategoryCreate(Request $request)
+
+    // メインカテゴリーの追加
+    public function mainCategoryCreate(MainCategoryFormRequest $request)
     {
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');
     }
+    // サブカテゴリーの追加
+    public function subCategoryCreate(SubCategoryFormRequest $request)
+    {
+        // 'DBのカラム名' => $request->bladeで入力した情報（nameで指定した名前を入力）->createする
+        SubCategory::create([
+            'sub_category' => $request->sub_category_name,
+            'main_category_id' => $request->main_category_id
+        ]);
+        return redirect()->route('post.input');
+    }
+
 
     public function commentCreate(Request $request)
     {

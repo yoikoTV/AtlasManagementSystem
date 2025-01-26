@@ -15,20 +15,26 @@ class Post extends Model
         'post',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\Models\Users\User');
     }
 
-    public function postComments(){
+    public function postComments()
+    {
         return $this->hasMany('App\Models\Posts\PostComment');
     }
 
-    public function subCategories(){
-        // リレーションの定義
+    // belongsToMany('関係するモデル（相手のモデル）', '中間テーブルのテーブル名', '中間テーブル内で対応しているID名（自分のモデルのID）', '関係するモデルで対応しているID名（リレーションしたい相手のID）');
+    // 投稿時サブカテゴリーを選択して投稿するための記述
+    public function subCategories()
+    {
+        return $this->belongsToMany('App\Models\Categories\SubCategory', 'post_sub_categories', 'post_id', 'sub_category_id');
     }
 
     // コメント数
-    public function commentCounts($post_id){
+    public function commentCounts($post_id)
+    {
         return Post::with('postComments')->find($post_id)->postComments();
     }
 }

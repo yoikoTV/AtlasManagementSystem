@@ -14,6 +14,9 @@
           </div>
         </div>
         @endif
+        @foreach ($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
         <div class="contributor d-flex">
           <p>
             <span>{{ $post->user->over_name }}</span>
