@@ -21,15 +21,31 @@ class PostsController extends Controller
     {
         $posts = Post::with('user', 'postComments')->get();
         $categories = MainCategory::get();
+        $sub_categories = SubCategory::get();
         $like = new Like;
         $post_comment = new Post;
         if (!empty($request->keyword)) {
             $posts = Post::with('user', 'postComments')
                 ->where('post_title', 'like', '%' . $request->keyword . '%')
-                ->orWhere('post', 'like', '%' . $request->keyword . '%')->get();
+                ->orWhere('post', 'like', '%' . $request->keyword . '%')
+                ->orWhereHas('subCategories', function ($query) use ($request) {
+                    $query->where('sub_category', $request->keyword);
+                })
+                ->get();
         } else if ($request->category_word) {
-            $sub_category = $request->category_word;
-            $posts = Post::with('user', 'postComments')->get();
+            $sub_category =
+                SubCategory::where('sub_category', $request->category_word)->first();
+            // サブカテゴリーの名前と、送られてきた名前が一致しているもののデータ全てを取得
+            $posts = Post::with('user', 'postComments', 'subCategories')
+                ->whereHas('subCategories', function ($query) use ($sub_category) {
+                    $query->where('sub_category_id', $sub_category->id);
+                })
+                ->get();
+            // whereHas メソッドは、関連する別のテーブル（中間テーブル）に対して条件を追加するためのメソッドです。多対多や一対多などのリレーションが設定されている場合に使います。
+            // whereHas を使うことで、リレーション先のテーブルに条件を指定し、それに一致するリレーションを持つ親テーブル（例えば、Post モデル）のデータを取得します。
+            // $query を使わない場合、whereHas メソッドがどのように条件を追加するかがわからなくなります。
+            // whereHas の中でリレーション先のデータに対して絞り込むために、$query を使う必要があるからです。
+            // もし $query を省略してしまうと、whereHas の中でリレーション先（subCategories）に対する具体的な絞り込み条件が指定されなくなり、すべての関連する投稿を取得してしまうことになります。
         } else if ($request->like_posts) {
             $likes = Auth::user()->likePostId()->get('like_post_id');
             $posts = Post::with('user', 'postComments')
@@ -38,7 +54,7 @@ class PostsController extends Controller
             $posts = Post::with('user', 'postComments')
                 ->where('user_id', Auth::id())->get();
         }
-        return view('authenticated.bulletinboard.posts', compact('posts', 'categories', 'like', 'post_comment'));
+        return view('authenticated.bulletinboard.posts', compact('posts', 'categories', 'sub_categories', 'like', 'post_comment'));
     }
 
     public function postDetail($post_id)
