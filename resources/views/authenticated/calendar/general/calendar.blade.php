@@ -15,4 +15,24 @@
     </div>
   </div>
 </div>
+<div>
+  <div class="modal js-modal">
+    <div class="modal__bg js-modal-close"></div>
+    <div class="modal__content">
+      <p>予約日<span class="modal_date"></span></p>
+      <p>時間<span class="modal_part"></span></p>
+      <p>上記の予約をキャンセルしてよろしいですか？</p>
+      <div class="modal_buttons d-flex">
+        <button type="button" class="btn btn-primary close_button_modal js-modal-close">
+          閉じる
+        </button>
+        <button type="submit" class="btn btn-danger cancel_button_modal" form="deleteParts">
+          キャンセル
+        </button>
+        <input class="delete_date" name="delete_getdate" type="hidden" value="" form="deleteParts">
+        <input class="delete_part" name="delete_getpart" type="hidden" value="" form="deleteParts">
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
