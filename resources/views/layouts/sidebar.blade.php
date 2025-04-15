@@ -20,7 +20,7 @@
   <div class="d-flex">
     <div class="sidebar">
       @section('sidebar')
-      <p><a href="{{ route('top.show') }}">トップ</a></p>
+      <p><a href="{{ route('top.show') }}"><img src="{{ asset('public/image/home.png') }}" alt="home">トップ</a></p>
       <p><a href="/logout">ログアウト</a></p>
       <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
       @if(in_array(auth()->user()->role,[1,2,3]))

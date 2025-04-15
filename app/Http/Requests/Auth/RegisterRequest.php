@@ -45,13 +45,13 @@ class RegisterRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if (!checkdate($this->input('old_month'), $this->input('old_day'), $this->input('old_year'))) {
-                $validator->errors()->add('birthday_day', '正しい日付を入力してください');
+                $validator->errors()->add('birth_day', '正しい日付を入力してください');
             }
 
             $birthdate = Carbon::createFromDate($this->input('old_year'), $this->input('old_month'), $this->input('old_day'));
 
             if ($birthdate->isFuture()) {
-                $validator->errors()->add('birthday_day', '誕生日は未来の日付にはできません');
+                $validator->errors()->add('birth_day', '誕生日は未来の日付にはできません');
             }
         });
     }
@@ -59,11 +59,11 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'over_name.required' => '姓は必須です。',
+            'over_name.required' => '名前は必ず入力してください。',
             'over_name.string' => '姓は文字のみ有効です。',
             'over_name.max' => '姓は10文字以内で入力してください。',
 
-            'under_name.required' => '名は必須です。',
+            'under_name.required' => '名前は必ず入力してください。',
             'under_name.string' => '名は文字のみ有効です。',
             'under_name.max' => '名は10文字以内で入力してください。',
 
