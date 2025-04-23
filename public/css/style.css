@@ -18,10 +18,11 @@ li {
 
 /* サイドバー */
 .sidebar {
-  width: 150px;
+  width: 200px;
   height: 100vh;
   background-color: #03AAD2;
   font-weight: bold;
+  padding: 10px;
 }
 
 .main-container {
@@ -30,6 +31,11 @@ li {
 
 .sidebar p a {
   color: #FFF;
+}
+
+.sidebar_icon {
+  width: 22px;
+  margin-right: 4px;
 }
 
 /* トップページ */
@@ -172,17 +178,12 @@ li {
 
 /* 掲示板 詳細画面 */
 .contributor {
-  font-size: 12px;
   color: #999;
   font-weight: bold;
 }
 
-.detsail_post_title {
-  font-size: 14px;
-}
 
 .detsail_post {
-  font-size: 12px;
   color: #9E9E9E;
 }
 
@@ -243,11 +244,49 @@ li {
 }
 
 .category_btn {
-  font-size: 12px;
   border-radius: 5px;
   padding: 0 5px;
   border: none;
-  background: #999;
+  background: #04a9d2;
+  color: #FFF;
+}
+
+.post-btn {
+  text-align: center;
+  padding: 5px;
+}
+
+.post-btn a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.keyword-text {
+  padding: 2px;
+  background-color: #ecf1f6;
+  border: none;
+  border-radius: 5px 0 0 5px;
+}
+
+.key-word-btn {
+  border: none;
+  width: 100px;
+  border-radius: 0 5px 5px 0;
+}
+
+.good_btn {
+  border-radius: 5px;
+  padding: 0 5px;
+  border: none;
+  background: #e38eab;
+  color: #FFF;
+}
+
+.mypost_btn {
+  border-radius: 5px;
+  padding: 5px;
+  border: none;
+  background: #ebbc5d;
   color: #FFF;
 }
 
@@ -255,6 +294,59 @@ li {
 .sub_categories li input {
   list-style: none;
   cursor: pointer;
+}
+
+.count_margin {
+  margin-left: 2px;
+}
+
+.arrow {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #333;
+  border-bottom: 2px solid #333;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-left: 8px;
+}
+
+.arrow.rotate {
+  transform: rotate(-135deg);
+  /* 上向きに変化 */
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: center;
+}
+
+.accordion-content {
+  display: none;
+  margin-left: 15px;
+}
+
+.accordion-content.open {
+  display: block;
+}
+
+.border-thick {
+  border-bottom: 1px solid #a8a8a9;
+}
+
+.category_word-wrap {
+  margin-right: 40px;
+}
+
+.category_word {
+  border: none;
+}
+
+/* 新規投稿 */
+.postcreate-border {
+  border: 2px solid #ecf1f5;
 }
 
 /* ユーザー検索 */

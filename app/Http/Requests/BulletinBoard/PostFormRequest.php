@@ -24,8 +24,8 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'post_category_id' => 'required'存在してるかどうかの記述,
-            'post_title' => 'min:4|string|max:50',
+            'post_category_id' => 'required|exists:main_categories,id',
+            'post_title' => 'required|min:4|string|max:50',
             'post_body' => 'min:10|string|max:5000'
         ];
     }
@@ -34,6 +34,7 @@ class PostFormRequest extends FormRequest
     {
         return [
             'post_category_id.required' => 'カテゴリーの選択は必須です。',
+            'post_title.required' => 'タイトルは必ず入力してください。',
             'post_title.string' => 'タイトルは文字列のみ有効です。',
             'post_title.min' => 'タイトルは4文字以上入力してください。',
             'post_title.max' => 'タイトルは50文字以内で入力してください。',
