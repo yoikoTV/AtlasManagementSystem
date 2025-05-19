@@ -13,6 +13,7 @@ use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
 use App\Http\Requests\BulletinBoard\SubCategoryFormRequest;
 use App\Http\Requests\BulletinBoard\MainCategoryFormRequest;
+use App\Http\Requests\CommentRequest;
 use Auth;
 
 class PostsController extends Controller
@@ -120,14 +121,15 @@ class PostsController extends Controller
     }
 
 
-    public function commentCreate(Request $request)
+    public function commentCreate(CommentRequest $request)
     {
+        $validated = $request->validated();
         PostComment::create([
-            'post_id' => $request->post_id,
+            'post_id' => $validated['post_id'],
             'user_id' => Auth::id(),
-            'comment' => $request->comment
+            'comment' => $validated['comment']
         ]);
-        return redirect()->route('post.detail', ['id' => $request->post_id]);
+        return redirect()->route('post.detail', ['id' => $validated['post_id']]);
     }
 
     public function myBulletinBoard()

@@ -57,17 +57,19 @@
               <span class="arrow"></span>
             </div>
           </div>
-          <ul class="accordion-content category_word-wrap mb-3 ml-3">
-            @foreach($sub_categories as $sub_category)
-            @if($category->id == $sub_category->main_category_id)
-            <li class="border-thick" value="{{$sub_category->id}}">
-              <span>
-                <input type="submit" name='category_word' class="category_word" value="{{$sub_category->sub_category}}" form="postSearchRequest">
-              </span>
-            </li>
-            @endif
-            @endforeach
-          </ul>
+          <div class="accordion-content">
+            <ul class="category_word-wrap mb-3 ml-3">
+              @foreach($sub_categories as $sub_category)
+              @if($category->id == $sub_category->main_category_id)
+              <li class="border-thick" value="{{$sub_category->id}}">
+                <span>
+                  <input type="submit" name='category_word' class="category_word" value="{{$sub_category->sub_category}}" form="postSearchRequest">
+                </span>
+              </li>
+              @endif
+              @endforeach
+            </ul>
+          </div>
         </li>
         @endforeach
       </ul>

@@ -48,8 +48,11 @@
   <div class="w-50 p-3">
     <div class="comment_container border m-5">
       <div class="comment_area p-3">
+        @if($errors->first('comment'))
+        <span class="error_message">{{ $errors->first('comment') }}</span>
+        @endif
         <p class="m-0">コメントする</p>
-        <textarea class="w-100" name="comment" form="commentRequest"></textarea>
+        <textarea class="w-100 postcreate-border" name="comment" form="commentRequest"></textarea>
         <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
         <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
         <form action="{{ route('comment.create') }}" method="post" id="commentRequest">{{ csrf_field() }}</form>
@@ -63,10 +66,10 @@
     <form action="{{ route('post.edit') }}" method="post">
       <div class="w-100">
         <div class="modal-inner-title w-50 m-auto">
-          <input type="text" name="post_title" placeholder="タイトル" class="w-100">
+          <input type="text" name="post_title" placeholder="タイトル" class="w-100 postcreate-border">
         </div>
         <div class="modal-inner-body w-50 m-auto pt-3 pb-3">
-          <textarea placeholder="投稿内容" name="post_body" class="w-100"></textarea>
+          <textarea placeholder="投稿内容" name="post_body" class="w-100 postcreate-border"></textarea>
         </div>
         <div class="w-50 m-auto edit-modal-btn d-flex">
           <a class="js-modal-close btn btn-danger d-inline-block" href="">閉じる</a>

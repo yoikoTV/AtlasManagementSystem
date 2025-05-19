@@ -17,7 +17,7 @@
 </head>
 
 <body class="all_content">
-  <div class="d-flex">
+  <div class="d-flex vh-100">
     <div class="sidebar">
       @section('sidebar')
       <p><a href="{{ route('top.show') }}"><img class="sidebar_icon" src="{{asset('image/home.png')}}" alt="home">トップ</a></p>
