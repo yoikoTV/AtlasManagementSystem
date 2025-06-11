@@ -42,7 +42,7 @@ class CalendarWeekDay
       $one_part_user_count = $one_part->users->count();
       $html[] = '<p class="day_part m-0 pt-1">';
       $html[] = '<a href="/calendar/' . $ymd . '/' . $one_part->setting_part . '">1部</a>';
-      $html[] = '<span class="ml-3">' . $one_part_user_count . '</span>';
+      $html[] = '<span class="ml-4">' . $one_part_user_count . '</span>';
       $html[] = '</p>';
     }
     if ($two_part) {

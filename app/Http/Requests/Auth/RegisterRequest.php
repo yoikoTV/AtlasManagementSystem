@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
             'under_name_kana' => 'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
             'mail_address' => 'required|email|unique:users,mail_address',
             'sex' => 'required|in:1,2,3',
-            'old_year' => 'required|min:2000',
+            'old_year' => 'required|integer|min:2000',
             'old_month' => 'required',
             'old_day' => 'required',
             'role' => 'required|in:1,2,3,4',

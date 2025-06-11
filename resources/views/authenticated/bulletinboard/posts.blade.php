@@ -37,7 +37,9 @@
   </div>
   <div class="other_areaw-25">
     <div class="m-4">
-      <div class="category_btn post-btn mb-3"><a href="{{ route('post.input') }}">投稿</a></div>
+      <a href="{{ route('post.input') }}" class="text-decoration-none">
+        <div class="category_btn post-btn mb-3">投稿</div>
+      </a>
       <div class="mb-3 d-flex justify-content-between">
         <input type="text" class="keyword-text border" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
         <input type="submit" class="category_btn key-word-btn" value="検索" form="postSearchRequest">

@@ -23,10 +23,19 @@ class PostFormRequest extends FormRequest
      */
     public function rules()
     {
+        //編集のバリデーショn
+        if ($this->isMethod('post') && $this->routeIs('post.edit')) {
+            return [
+                'post_title' => 'required|min:4|string|max:50',
+                'post_body' => 'nullable|min:10|string|max:5000',
+            ];
+        }
+
+        // 新規投稿のバリデーショn
         return [
             'post_category_id' => 'required|exists:main_categories,id',
             'post_title' => 'required|min:4|string|max:50',
-            'post_body' => 'min:10|string|max:5000'
+            'post_body' => 'required|min:10|string|max:5000'
         ];
     }
 
