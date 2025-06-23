@@ -354,9 +354,10 @@ li {
 
 /* ユーザー検索 */
 .reserve_users_area {
+  width: 75%;
   display: flex;
   flex-wrap: wrap;
-  margin: 10px auto;
+  margin: 10px;
   overflow: scroll;
   padding: 10px;
 }

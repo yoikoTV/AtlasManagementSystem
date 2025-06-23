@@ -7,6 +7,9 @@
         @if($errors->first('post_title'))
         <span class="error_message">{{ $errors->first('post_title') }}</span>
         @endif
+        @if($errors->first('post_body'))
+        <span class="error_message">{{ $errors->first('post_body') }}</span>
+        @endif
         @if($user_id == $post->user_id)
         <div class="detail_inner_head">
           @foreach($post->subCategories as $sub)

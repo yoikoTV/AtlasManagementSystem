@@ -23,15 +23,15 @@ class PostFormRequest extends FormRequest
      */
     public function rules()
     {
-        //編集のバリデーショn
+        //編集のバリデーションd
         if ($this->isMethod('post') && $this->routeIs('post.edit')) {
             return [
                 'post_title' => 'required|min:4|string|max:50',
-                'post_body' => 'nullable|min:10|string|max:5000',
+                'post_body' => 'required|min:10|string|max:5000',
             ];
         }
 
-        // 新規投稿のバリデーショn
+        // 新規投稿のバリデーション
         return [
             'post_category_id' => 'required|exists:main_categories,id',
             'post_title' => 'required|min:4|string|max:50',
@@ -47,6 +47,7 @@ class PostFormRequest extends FormRequest
             'post_title.string' => 'タイトルは文字列のみ有効です。',
             'post_title.min' => 'タイトルは4文字以上入力してください。',
             'post_title.max' => 'タイトルは50文字以内で入力してください。',
+            'post_body.required' => '投稿内容は必ず入力してください。',
             'post_body.string' => '内容は文字列のみ有効です。',
             'post_body.min' => '内容は10文字以上入力してください。',
             'post_body.max' => '最大文字数は5000文字です。',

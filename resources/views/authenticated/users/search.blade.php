@@ -2,13 +2,15 @@
 
 @section('content')
 <div class="search_content w-100 d-flex">
-  <div class="reserve_users_area">
+  <div class="reserve_users_area d-flex flex-wrap justify-content-start align-items-start">
     @foreach($users as $user)
     <div class="border one_person postcreate-border shadow">
       <div class="m-2">
-        <span class="my_bold user_font">ID : </span><span class="my_bold">{{ $user->id }}</span>
+        <span class="my_bold user_font">ID : </span>
+        <span class="my_bold">{{ $user->id }}</span>
       </div>
-      <div class="m-2"><span class="my_bold user_font">名前 : </span>
+      <div class="m-2">
+        <span class="my_bold user_font">名前 : </span>
         <a href="{{ route('user.profile', ['id' => $user->id]) }}">
           <span class="my_bold">{{ $user->over_name }}</span>
           <span class="my_bold">{{ $user->under_name }}</span>
